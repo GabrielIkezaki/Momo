@@ -1,0 +1,9 @@
+﻿  MainGame.cpp
+C:\Users\Gabriel Mori\source\repos\Unsatisfying End\Unsatisfying End\SpriteObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Gabriel Mori\source\repos\Unsatisfying End\Unsatisfying End\MainGame.cpp(26,27): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Gabriel Mori\source\repos\Unsatisfying End\Unsatisfying End\MainGame.cpp(27,27): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Gabriel Mori\source\repos\Unsatisfying End\Unsatisfying End\MainGame.cpp(93,40): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Gabriel Mori\source\repos\Unsatisfying End\Unsatisfying End\MainGame.cpp(93,27): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Gabriel Mori\source\repos\Unsatisfying End\Unsatisfying End\MainGame.cpp(107,38): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Gabriel Mori\source\repos\Unsatisfying End\Unsatisfying End\MainGame.cpp(107,25): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Unsatisfying End.vcxproj -> C:\Users\Gabriel Mori\source\repos\Unsatisfying End\Debug\Unsatisfying End.exe
