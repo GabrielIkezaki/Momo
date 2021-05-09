@@ -23,6 +23,11 @@ void Character::DefineSprite(std::string spriteTexture, sf::Vector2f spriteScale
 
 }
 
+void Character::TakeDamage(int damage) {
+	health -= damage;
+	std::cout << health << std::endl;
+}
+
 void Character::UpdateRect() {
 		
 	hitBox.setSize(sf::Vector2f(rect.x * 2, rect.y * 2));
@@ -30,5 +35,6 @@ void Character::UpdateRect() {
 	hitBox.setOutlineThickness(2);
 	hitBox.setFillColor(sf::Color::Transparent);
 	hitBox.setPosition(characterSprite.position.x + rectOffset.x, characterSprite.position.y + rectOffset.y);
+	//hitBox.setPosition(0, 0);
 
 }

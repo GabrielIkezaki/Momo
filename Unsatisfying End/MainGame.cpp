@@ -51,6 +51,7 @@ void MainGame::Player::Shoot() {
 		for (int i = 0; i < allBullets.size(); i++) {	//For every bullet in the list
 			allBullets[i]->Character::Move(sf::Vector2f(0, -1000));		//The player will make the bullets Move
 			allBullets[i]->Character::UpdateRect();
+			allBullets[i]->CheckBossCollision(&currentScene->hanako);
 		}	
 	}
 
@@ -75,6 +76,7 @@ MainGame::MainGame(sf::Event* tempEvent) : GameScene(tempEvent) {	//The event po
 	backgroundAnimations.push_back(new Animation(&backGround.objectTexture, sf::Vector2u(1, 3), .2f));	
 
 	GameScene::AddObject(&backGround);	//The bacground will be the first sprite added to the spritesindisplay list, as it needs to be rendered first (behind everything else)
+	GameScene::AddObject(&hanako.characterSprite);
 	GameScene::AddObject(&player.characterSprite);	//The player will then be added to the spritesindisplay list
 }
 
@@ -92,6 +94,7 @@ void MainGame::ControlPlayer(sf::Event* tempEvent) {	//FThis function is called 
 
 void MainGame::Update() {
 	player.Update();
+	hanako.Update();
 	backgroundAnimations[0]->Update(deltaTime);	//The backgroundanimation will count the switchtime according to the external deltaTime variable
 	backGround.SwitchSpriteFrame(backgroundAnimations[0]->uvRect);	//The background will change frame accordingly
 //	window->draw(player.rectangle);

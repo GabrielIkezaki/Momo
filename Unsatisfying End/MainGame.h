@@ -1,7 +1,7 @@
 #pragma once
 #include "GameScene.h"
 #include "Animation.h"
-//#include "Player.h"
+#include "Boss.h"
 
 
 class MainGame: public GameScene		//This is the scene where the actual game will run
@@ -9,9 +9,23 @@ class MainGame: public GameScene		//This is the scene where the actual game will
 
 	class PlayerBullet : //The bullets fired by the player
 		public Character {
+
+	private:
+		bool canDealDamage = true;
 	public:
 		PlayerBullet(int tempHealth, sf::Vector2f position):		//Uses the same constructor as the Character class, but the texture and scale will always be the same for all bullets
 			Character(tempHealth, position, "./Sprites/Projectiles/PlayerBullet.png", sf::Vector2f(1,1), sf::Vector2f(5, 15), sf::Vector2f(20,0)) {}
+		
+		void CheckBossCollision(Character* boss) {
+			if (hitBox.getPosition().x < (boss->hitBox.getPosition().x + (2 * boss->rect.x)) && (hitBox.getPosition().x + (2*rect.x)) > (boss->hitBox.getPosition().x)
+			&& hitBox.getPosition().y < (boss->hitBox.getPosition().y + (2 * boss->rect.y)) && (hitBox.getPosition().y + (2 * rect.y)) >(boss->hitBox.getPosition().y)) 
+			{
+				if (canDealDamage) {
+					boss->TakeDamage(1);
+					canDealDamage = false;
+				}
+			}
+		}
 	};
 
 
@@ -41,7 +55,8 @@ class MainGame: public GameScene		//This is the scene where the actual game will
 public:
 
 	Player player = Player(localEv, this, 1, sf::Vector2f(10, 10));	//Player character inherits the same event pointer as the scene, making inputs consistent between object and scene
-	
+	Boss hanako;
+
 	SpriteObject backGround;		//The background will be just a sprite with no actual character attribute
 	std::vector<Animation*> backgroundAnimations;		//Background animation
 	sf::Clock clock;		//This clock will count the deltaTime  

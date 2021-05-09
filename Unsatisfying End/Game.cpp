@@ -49,6 +49,7 @@ void Game::Render() {		//This is how the game is rendered
 	window->clear();	//The previous frame is erased
 	gameScene.Display(window);		//The game scene will draw every sprite in it
 	window->draw(gameScene.player.hitBox);
+	window->draw(gameScene.hanako.hitBox);
 	if (gameScene.player.allBullets.size() > 0) {
 		for (int i = 0; i < gameScene.player.allBullets.size(); i++) {
 			window->draw(gameScene.player.allBullets[i]->hitBox);
