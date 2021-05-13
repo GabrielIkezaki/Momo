@@ -73,7 +73,7 @@ MainGame::MainGame(sf::Event* tempEvent) : GameScene(tempEvent) {	//The event po
 	backGround.Set("./Sprites/Bgrounds/BgroundSheet.png", sf::Vector2f(0,0), sf::Vector2f(3.5f, 3.5f));
 
 	//The background will add a new animation, which will be its only one too. This animation will take the image of the same texture as the background's sprite, the sheet will have 1 column and 3 rows, and the switch time for each proceeding frame is .2f
-	backgroundAnimations.push_back(new Animation(&backGround.objectTexture, sf::Vector2u(1, 3), .2f));	
+	backgroundAnimations.push_back(new Animation(&backGround.objectTexture, sf::Vector2u(1, 3), .2f, true));	
 
 	GameScene::AddObject(&backGround);	//The bacground will be the first sprite added to the spritesindisplay list, as it needs to be rendered first (behind everything else)
 	GameScene::AddObject(&hanako.characterSprite);

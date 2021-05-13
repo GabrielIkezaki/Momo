@@ -7,6 +7,11 @@ void Character::Move(sf::Vector2f velocity) {		//This function is what causes th
 	characterSprite.Move(position);		//Consequently, the sprite will also move to the character's new position
 }
 
+void Character::ChangePosition(sf::Vector2f newPosition) {
+	position = newPosition;
+	characterSprite.Move(position);
+}
+
 Character::Character(int tempHealth, sf::Vector2f position, std::string texture, sf::Vector2f scale, sf::Vector2f rect, sf::Vector2f offset) {
 	health = tempHealth;
 	this->position = position;

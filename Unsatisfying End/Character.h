@@ -19,6 +19,7 @@ public:
 
 	void DefineSprite(std::string spriteTexture, sf::Vector2f spriteScale);		//Changes this character sprite's texture and scale
 	void Move(sf::Vector2f velocity);		//Moves the character by adding a velocity value
+	void ChangePosition(sf::Vector2f newPosition);
 	void UpdateRect();
 	virtual void TakeDamage(int damage);
 	

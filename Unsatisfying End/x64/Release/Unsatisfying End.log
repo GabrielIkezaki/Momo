@@ -1,14 +1,8 @@
 ﻿  Boss.cpp
 C:\Users\Gabriel Mori\source\repos\Unsatisfying End\Unsatisfying End\SpriteObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  Game.cpp
-C:\Users\Gabriel Mori\source\repos\Unsatisfying End\Unsatisfying End\SpriteObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  MainGame.cpp
-C:\Users\Gabriel Mori\source\repos\Unsatisfying End\Unsatisfying End\SpriteObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  main.cpp
-C:\Users\Gabriel Mori\source\repos\Unsatisfying End\Unsatisfying End\SpriteObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
   Generating code
-  2 of 277 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
+  4 of 446 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    2 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Unsatisfying End.vcxproj -> C:\Users\Gabriel Mori\source\repos\Unsatisfying End\x64\Release\Unsatisfying End.exe
