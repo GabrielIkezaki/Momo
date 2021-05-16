@@ -6,6 +6,9 @@ MainGame::Player::Player(sf::Event* tempEv, MainGame* tempScene, int tempHealth,
 	ev = tempEv;
 	currentScene = tempScene;
 
+}
+
+void MainGame::Player::DrawBullets() {
 	for (int i = 0; i < maxBullets; i++) {
 		allBullets.push_back(new PlayerBullet(1, sf::Vector2f(-10, -10)));	//The player will add a new bullet to its list
 		currentScene->GameScene::AddObject(&allBullets[allBullets.size() - 1]->characterSprite);		//The player will pass down the new bullet to the scene, so that it may be displayed
@@ -91,6 +94,8 @@ MainGame::MainGame(sf::Event* tempEvent) : GameScene(tempEvent) {	//The event po
 	GameScene::AddObject(&backGround);	//The bacground will be the first sprite added to the spritesindisplay list, as it needs to be rendered first (behind everything else)
 	GameScene::AddObject(&hanako.characterSprite);
 	GameScene::AddObject(&player.characterSprite);	//The player will then be added to the spritesindisplay list
+
+	player.DrawBullets();
 }
 
 void MainGame::ControlPlayer(sf::Event* tempEvent) {	//FThis function is called in the pollevents function of the Game.cpp file, it reads the player's input and control the player character

@@ -57,6 +57,7 @@ class MainGame: public GameScene		//This is the scene where the actual game will
 		void Movement();	//Moves the player
 		void Shoot();		//Instatiate bullets 
 		void Update();		//Is called by the scene to update the player object
+		void DrawBullets();
 	};
 
 public:
