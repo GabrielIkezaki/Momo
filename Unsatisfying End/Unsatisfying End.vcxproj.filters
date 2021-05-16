@@ -60,9 +60,6 @@
     <ClCompile Include="Character.cpp">
       <Filter>Source Files\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>Source Files\Prefab</Filter>
-    </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
@@ -82,9 +79,6 @@
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Header Files\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
-      <Filter>Header Files\Prefab</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Header Files\Component Headers</Filter>

@@ -15,11 +15,11 @@ public:
 	sf::RectangleShape hitBox;
 
 	//Character constructor requires an initial health, position, sprite texture and sprite scale
-	Character(int tempHealth, sf::Vector2f position, std::string texture, sf::Vector2f scale, sf::Vector2f rect, sf::Vector2f offset);
+	Character(int tempHealth, sf::Vector2f position, sf::Vector2f origin, std::string texture, sf::Vector2f scale, sf::Vector2f rect, sf::Vector2f offset);
 
-	void DefineSprite(std::string spriteTexture, sf::Vector2f spriteScale);		//Changes this character sprite's texture and scale
+	void DefineSprite(std::string spriteTexture, sf::Vector2f spriteScale, sf::Vector2f origin);		//Changes this character sprite's texture and scale
 	void Move(sf::Vector2f velocity);		//Moves the character by adding a velocity value
-	void ChangePosition(sf::Vector2f newPosition);
+	virtual void ChangePosition(sf::Vector2f newPosition);
 	void UpdateRect();
 	virtual void TakeDamage(int damage);
 	

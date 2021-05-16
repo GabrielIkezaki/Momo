@@ -55,5 +55,6 @@ void Game::Render() {		//This is how the game is rendered
 			window->draw(gameScene.player.allBullets[i]->hitBox);
 		}
 	}
+
 	window->display();	//The window will display whatever was drawn on the previous lines 
 }

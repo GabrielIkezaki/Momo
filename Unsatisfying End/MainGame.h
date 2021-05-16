@@ -14,7 +14,7 @@ class MainGame: public GameScene		//This is the scene where the actual game will
 		bool canDealDamage = true;
 	public:
 		PlayerBullet(int tempHealth, sf::Vector2f position):		//Uses the same constructor as the Character class, but the texture and scale will always be the same for all bullets
-			Character(tempHealth, position, "./Sprites/Projectiles/PlayerBullet.png", sf::Vector2f(1,1), sf::Vector2f(5, 15), sf::Vector2f(20,0)) {}
+			Character(tempHealth, position, sf::Vector2f(25,25), "./Sprites/Projectiles/PlayerBullet.png", sf::Vector2f(1,1), sf::Vector2f(5, 15), sf::Vector2f(-5,-15)) {}
 		
 		void CheckBossCollision(Character* boss) {
 			if (hitBox.getPosition().x < (boss->hitBox.getPosition().x + (2 * boss->rect.x)) && (hitBox.getPosition().x + (2*rect.x)) > (boss->hitBox.getPosition().x)
@@ -26,6 +26,11 @@ class MainGame: public GameScene		//This is the scene where the actual game will
 				}
 			}
 		}
+
+		void ChangePosition(sf::Vector2f newPosition) override {
+			Character::ChangePosition(newPosition);
+			canDealDamage = true;
+		};
 	};
 
 
@@ -39,6 +44,8 @@ class MainGame: public GameScene		//This is the scene where the actual game will
 	public:
 
 		std::vector<PlayerBullet*> allBullets;		//Stores all the instantiated bullets, making it easier to move all of the and execute functions for all bullets
+		int currentBullet = 0;
+		int maxBullets = 16;
 		MainGame* currentScene;		//This pointer allows the player to access the game scene, and add each instantiated bullets to the spritesindisplay vector
 		
 		Player(sf::Event* tempEv, MainGame* tempScene, int tempHealth, sf::Vector2f position);	//These are the parameters required by the player

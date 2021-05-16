@@ -15,16 +15,21 @@ class Bloom :
     public:
 
         sf::Vector2f direction;
-
         
         DaisyBullet(sf::Vector2f position, sf::Vector2f direction) :
-            Character(1, position, "./Sprites/Projectiles/Daisy.png", sf::Vector2f(.7f, .7f), sf::Vector2f(70, 70), sf::Vector2f(170, 130)) {
+            Character(1, position, sf::Vector2f(250, 140.5f), "./Sprites/Projectiles/Daisy.png", sf::Vector2f(.6f, .6f), sf::Vector2f(70, 70), sf::Vector2f(0, 0)) {
             this->direction = direction;
         }
     };
     
 
 private:
+
+
+    int totalCircumferences = 4;
+    int currentCircumference;
+    int numberOfBullets = 12;
+
     bool isEntering;
     Character* boss;
 
@@ -36,15 +41,18 @@ public:
 
     sf::Clock clock; 
     sf::Time timeBetweenCircumference;
-
+    float circumferenceCooldown = 4;
     GameScene* scene;
 
     std::vector<DaisyBullet*> daisyBullets;
+
+    bool wakeUp = false;
 
     Bloom(Character* boss, GameScene* scene, sf::Vector2f offset);
 
     Animation bloomEntry = Animation(&characterSprite.objectTexture, sf::Vector2u(3, 2), 0.2f, false);
     void Update();
+    void DrawDaisy();
 
 };
 
@@ -59,7 +67,6 @@ private:
     sf::Color blinkColor = sf::Color(255,0,0,230);
     GameScene* scene; 
 
-    std::vector<Bloom> bloomObjects;
 
     enum class Pattern
     {
@@ -70,7 +77,12 @@ private:
 
     bool canAttack = true;
     float xVelocity;
+
+    void Start();
 public:
+
+    std::vector<Bloom> bloomObjects;
+
 
     Boss(GameScene* window);
     void Update();

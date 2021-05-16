@@ -9,10 +9,12 @@ void Character::Move(sf::Vector2f velocity) {		//This function is what causes th
 
 void Character::ChangePosition(sf::Vector2f newPosition) {
 	position = newPosition;
+	//std::cout << position << std::endl;
+//	std::cout << position.x << ", " << position.y << std::endl;
 	characterSprite.Move(position);
 }
 
-Character::Character(int tempHealth, sf::Vector2f position, std::string texture, sf::Vector2f scale, sf::Vector2f rect, sf::Vector2f offset) {
+Character::Character(int tempHealth, sf::Vector2f position, sf::Vector2f origin, std::string texture, sf::Vector2f scale, sf::Vector2f rect, sf::Vector2f offset) {
 	health = tempHealth;
 	this->position = position;
 	this->rect = rect;
@@ -20,11 +22,11 @@ Character::Character(int tempHealth, sf::Vector2f position, std::string texture,
 
 	rect.x = characterSprite.objectTexture.getSize().x / 2;
 	rect.y = characterSprite.objectTexture.getSize().y / 2;
-	DefineSprite(texture, scale);		//As soon as the character is initialized, it will define its sprite right away
+	DefineSprite(texture, scale, origin);		//As soon as the character is initialized, it will define its sprite right away
 }
 
-void Character::DefineSprite(std::string spriteTexture, sf::Vector2f spriteScale) {
-	characterSprite.Set(spriteTexture,this->position, spriteScale);		//The character's sprite executes the Set fucntion, which defines the texture, position and scale of the character sprite
+void Character::DefineSprite(std::string spriteTexture, sf::Vector2f spriteScale, sf::Vector2f origin) {
+	characterSprite.Set(spriteTexture,this->position, origin, spriteScale);		//The character's sprite executes the Set fucntion, which defines the texture, position and scale of the character sprite
 
 }
 

@@ -1,22 +1,35 @@
 #include "Boss.h"
 
 Boss::Boss(GameScene* scene)
-	:Character(5000, sf::Vector2f(180, 10), "./Sprites/Characters/hanako.png", sf::Vector2f(.7f, .7f), sf::Vector2f(70, 70), sf::Vector2f(170,130)) {
+	:Character(5000, sf::Vector2f(415, 400), sf::Vector2f(351,434), "./Sprites/Characters/hanako.png", sf::Vector2f(.7f, .7f), sf::Vector2f(70, 70), sf::Vector2f(-75,-175)) {
 	this->scene = scene;
+
+//	bloomObjects.push_back(*new Bloom(this, this->scene, sf::Vector2f(xoffset, yoffset)));
+//	bloomObjects.push_back(*new Bloom(this, this->scene, sf::Vector2f(-xoffset, yoffset)));
+
+	Start();
 }
 
-Bloom::Bloom(Character* boss, GameScene* scene, sf::Vector2f offset) : Character(10, offset, "./Sprites/Characters/BloomSheet.png", sf::Vector2f(1, 1), sf::Vector2f(0, 0), sf::Vector2f(0, 0)) {
+void Boss::Start() {
+	BloomPattern();
+}
+
+Bloom::Bloom(Character* boss, GameScene* scene, sf::Vector2f offset) : Character(10, offset, sf::Vector2f(250, 140.5f), "./Sprites/Characters/BloomSheet.png", sf::Vector2f(1, 1), sf::Vector2f(0, 0), sf::Vector2f(0, 0)) {
 	this->boss = boss;
 	this->offset = offset;
-	//this.scene
-	this->scene = scene;
 
-	GenerateCircumference();
+	ChangePosition(boss->position + offset);
+
+	this->scene = scene;
+	for (int i = 0; i < totalCircumferences; i++) {
+		//std::cout << i << std::endl;
+		GenerateCircumference();
+	}
+
 }
 
 
 void Bloom::GenerateCircumference() {
-	int numberOfBullets = 10;
 
 	float angle = 0;
 	float addAngle = 360/numberOfBullets;
@@ -27,36 +40,68 @@ void Bloom::GenerateCircumference() {
 		float xDirection = cos((angle * (PI / 180)));
 		float yDirection = sin((angle * (PI / 180)));
 
-		sf::Vector2f newDirection = sf::Vector2f(xDirection * 100, yDirection * 100);		
+		sf::Vector2f newDirection = sf::Vector2f(xDirection * 700, yDirection * 700);		
 
-		daisyBullets.push_back(new DaisyBullet(this->characterSprite.spriteCenter(bloomEntry.uvRect.width, bloomEntry.uvRect.height), newDirection));
-
+		daisyBullets.push_back(new DaisyBullet(sf::Vector2f(-10, -10), newDirection));
+		scene->AddObject(&daisyBullets[daisyBullets.size() - 1]->characterSprite);
 		angle += addAngle;
 	}
 
-	for (int i = 1; i < numberOfBullets + 1; i++) {
-		std::cout << "BLOOM" << std::endl;
-		this->scene->AddObject(&daisyBullets[daisyBullets.size() - i]->characterSprite);
+
+	
+}
+
+void Bloom::DrawDaisy() {
+	for (int i = 0; i < daisyBullets.size(); i++) {
+		if (daisyBullets[i]->characterSprite.isVisible == false) {
+			scene->AddObject(&daisyBullets[i]->characterSprite);
+			daisyBullets[i]->characterSprite.isVisible = true; 
+		}
 	}
+
 
 }
 
 void Bloom::Update() {
-	timeBetweenCircumference = clock.getElapsedTime();
-	bloomEntry.Update(deltaTime);
-	position = sf::Vector2f(boss->position.x + offset.x, boss->position.y + offset.y);
 
-	ChangePosition(boss->position + offset);
 
-	characterSprite.SwitchSpriteFrame(bloomEntry.uvRect);
+	if (wakeUp) {
+		timeBetweenCircumference = clock.getElapsedTime();
+		bloomEntry.Update(deltaTime);
 
-	if (daisyBullets.size() > 0) {
+		ChangePosition(boss->position + offset);
 
-		for (int i = 0; i < daisyBullets.size(); i++) {
-			daisyBullets[i]->Character::Move(daisyBullets[i]->direction);
-			//std::cout << "BLOOM" << std::endl;
+		characterSprite.SwitchSpriteFrame(bloomEntry.uvRect);
 
+		if (timeBetweenCircumference.asSeconds() > circumferenceCooldown) {
+
+			DrawDaisy();
+
+			for (int i = 0; i < numberOfBullets; i++) {
+
+				int index = i + (currentCircumference * numberOfBullets);
+				daisyBullets[index]->ChangePosition(position);
+				daisyBullets[index]->UpdateRect();
+
+			}
+
+			currentCircumference++;
+			if (currentCircumference > totalCircumferences - 1) {
+				currentCircumference = 0;
+			}
+			circumferenceCooldown = .4f;
+
+			clock.restart();
 		}
+
+		if (daisyBullets.size() > 0) {
+
+			for (int i = 0; i < daisyBullets.size(); i++) {
+				daisyBullets[i]->Character::Move(daisyBullets[i]->direction);
+			}
+		}
+
+		
 	}
 
 }
@@ -65,12 +110,17 @@ void Bloom::Update() {
 
 
 void Boss::BloomPattern() {	
+
+	float xoffset = 300; 
+	float yoffset = -150;
+
 	for (int i = 0; i < 1; i++) {
-		bloomObjects.push_back(*new Bloom(this, this->scene, sf::Vector2f(0, 0)));
-		//bloomObjects.push_back(*new Bloom(this, this->scene, sf::Vector2f(300, 0)));		
+		bloomObjects.push_back(*new Bloom(this, this->scene, sf::Vector2f(xoffset, yoffset)));
+		bloomObjects.push_back(*new Bloom(this, this->scene, sf::Vector2f(-xoffset, yoffset)));
 	}
-	scene->AddObject(&bloomObjects[bloomObjects.size() - 1].characterSprite);
-	//scene->AddObject(&bloomObjects[bloomObjects.size() - 2].characterSprite);
+
+	//scene->AddObject(&bloomObjects[0].characterSprite);
+
 }
 
 
@@ -101,6 +151,7 @@ void Boss::TakeDamage(int tempDamage) {
 	characterSprite.objectSprite.setColor(blinkColor);
 }
 
+
 void Boss::Update() {
 	ArcMovement();
 	UpdateRect();
@@ -114,7 +165,20 @@ void Boss::Update() {
 	if (patternCooldown.asSeconds() > 2) {
 		if (canAttack) {
 			currentPattern = Pattern::BLOOM;
-			BloomPattern();
+
+			//scene->AddObject(&bloomObjects[0].characterSprite);
+			//scene->AddObject(&bloomObjects[1].characterSprite);
+
+
+
+			//bloomObjects[0].wakeUp = true;
+			//bloomObjects[1].wakeUp = true; 
+				
+			
+
+
+			
+
 			canAttack = false;
 		}
 	}

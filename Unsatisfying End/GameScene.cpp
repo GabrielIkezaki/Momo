@@ -6,6 +6,7 @@ void GameScene::Display(sf::RenderWindow* tempwindow) {		//The window that had b
 	
 	for (int i = 0; i < spritesInDisplay.size(); i++) {	
 		tempwindow->draw(spritesInDisplay[i]->objectSprite);
+		//spritesInDisplay[i]->isVisible = true;
 	}
 }
 

@@ -2,9 +2,14 @@
 
 //The player constructor will pass variables to the Character constructor (namely health and position), however, the texture and sprite scale will always remain the same
 MainGame::Player::Player(sf::Event* tempEv, MainGame* tempScene, int tempHealth, sf::Vector2f position):
-	Character(tempHealth, position,"./Sprites/Characters/momo.png", sf::Vector2f(.2f, .2f), sf::Vector2f(15, 20), sf::Vector2f(15, 10)) {
+	Character(tempHealth, position, sf::Vector2f(150,150), "./Sprites/Characters/momo.png", sf::Vector2f(.2f, .2f), sf::Vector2f(15, 20), sf::Vector2f(-15, -20)) {
 	ev = tempEv;
 	currentScene = tempScene;
+
+	for (int i = 0; i < maxBullets; i++) {
+		allBullets.push_back(new PlayerBullet(1, sf::Vector2f(-10, -10)));	//The player will add a new bullet to its list
+		currentScene->GameScene::AddObject(&allBullets[allBullets.size() - 1]->characterSprite);		//The player will pass down the new bullet to the scene, so that it may be displayed
+	}
 }
 
 void MainGame::Player::Movement(){
@@ -40,9 +45,17 @@ void MainGame::Player::Shoot() {
 	//As long as the player is holding down space and the fire cooldown is over the required limit (0.07 seconds)
 	if (isShooting && fireRate.asSeconds() > .07f) {
 		
-		allBullets.push_back(new PlayerBullet(1, characterSprite.position));	//The player will add a new bullet to its list
-		currentScene->GameScene::AddObject(&allBullets[allBullets.size() - 1]->characterSprite);		//The player will pass down the new bullet to the scene, so that it may be displayed
+		//allBullets.push_back(new PlayerBullet(1, characterSprite.position));	//The player will add a new bullet to its list
+		//currentScene->GameScene::AddObject(&allBullets[allBullets.size() - 1]->characterSprite);		//The player will pass down the new bullet to the scene, so that it may be displayed
+		allBullets[currentBullet]->ChangePosition(this->characterSprite.position);
+		if (currentBullet < maxBullets - 1) {
+			currentBullet++;
+		}
+		else {
+			currentBullet = 0;
+		}
 
+		std::cout << allBullets.size() << std::endl;
 
 		clock.restart();		//The fire cooldown will restart
 	}
@@ -70,7 +83,7 @@ MainGame::MainGame(sf::Event* tempEvent) : GameScene(tempEvent) {	//The event po
 
 
 	//Right as the game starts, the background's sprite will be defined
-	backGround.Set("./Sprites/Bgrounds/BgroundSheet.png", sf::Vector2f(0,0), sf::Vector2f(3.5f, 3.5f));
+	backGround.Set("./Sprites/Bgrounds/BgroundSheet.png", sf::Vector2f(0,0), sf::Vector2f(0,0), sf::Vector2f(3.5f, 3.5f));
 
 	//The background will add a new animation, which will be its only one too. This animation will take the image of the same texture as the background's sprite, the sheet will have 1 column and 3 rows, and the switch time for each proceeding frame is .2f
 	backgroundAnimations.push_back(new Animation(&backGround.objectTexture, sf::Vector2u(1, 3), .2f, true));	
@@ -97,6 +110,7 @@ void MainGame::Update() {
 	hanako.Update();
 	backgroundAnimations[0]->Update(deltaTime);	//The backgroundanimation will count the switchtime according to the external deltaTime variable
 	backGround.SwitchSpriteFrame(backgroundAnimations[0]->uvRect);	//The background will change frame accordingly
+
 //	window->draw(player.rectangle);
 }
  
