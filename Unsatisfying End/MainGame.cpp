@@ -19,16 +19,36 @@ void MainGame::Player::Movement(){
 
 	//I decided not to use switch statements, because I wanted the player to move for whatever direction the player is holding as opposed to the last direction they'd pressed
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		velocity.x = -250;
+		if (this->position.x > 0) {
+			velocity.x = -400;
+		}
+		else {
+			velocity.x = 0;
+		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		velocity.x = 250;
+		if (this->position.x < 900) {
+			velocity.x = 400;
+		}
+		else {
+			velocity.x = 0;
+		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		velocity.y = -250;
+		if (this->position.y > 0) {
+			velocity.y = -400;
+		}
+		else {
+			velocity.y = 0;
+		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		velocity.y = 250;
+		if (this->position.y < 1000) {
+			velocity.y = 400;
+		}
+		else {
+			velocity.y = 0;
+		}
 	}
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
@@ -41,7 +61,6 @@ void MainGame::Player::Movement(){
 
 	Character::Move(velocity);	//Whatever x and y values are set in this frame, they'll be passed down  to the Move velocity of the Character class
 }
-
 
 void MainGame::Player::Shoot() {
 
@@ -96,6 +115,7 @@ MainGame::MainGame(sf::Event* tempEvent) : GameScene(tempEvent) {	//The event po
 	GameScene::AddObject(&player.characterSprite);	//The player will then be added to the spritesindisplay list
 
 	player.DrawBullets();
+	hanako.Start();
 }
 
 void MainGame::ControlPlayer(sf::Event* tempEvent) {	//FThis function is called in the pollevents function of the Game.cpp file, it reads the player's input and control the player character

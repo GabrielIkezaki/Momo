@@ -54,6 +54,10 @@ void Game::Render() {		//This is how the game is rendered
 		for (int i = 0; i < gameScene.player.allBullets.size(); i++) {
 			window->draw(gameScene.player.allBullets[i]->hitBox);
 		}
+
+		for (int i = 0; i < gameScene.hanako.bossBullets.size(); i++) {
+			window->draw(gameScene.hanako.bossBullets[i]->hitBox);
+		}
 	}
 
 	window->display();	//The window will display whatever was drawn on the previous lines 

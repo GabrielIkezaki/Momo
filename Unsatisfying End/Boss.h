@@ -7,26 +7,33 @@
 class Bloom :
     public Character
 {
+
+protected:
+    Character* boss;
+    sf::Vector2f offset;
+
 private:
 
     bool isEntering;
     std::vector<EnemyBullet*>* bossBullets;
-    sf::Vector2f offset;
-
-    Character* boss;
 
 public:
     bool wakeUp = false;
 
-    Bloom(Character* boss, sf::Vector2f offset);
+    Bloom(std::string textureAddress, Character* boss, sf::Vector2f scale, sf::Vector2f offset, sf::Vector2f origin);
 
     Animation bloomEntry = Animation(&characterSprite.objectTexture, sf::Vector2u(3, 2), 0.2f, false);
-    void Update();
-    void DrawDaisy();
-
+    virtual void Update();
 
 };
 
+class SpiralWindow :
+    public Bloom {
+public:
+    SpiralWindow(std::string textureAddress, Character* boss, sf::Vector2f scale, sf::Vector2f offset) :Bloom( textureAddress, boss, scale, offset, sf::Vector2f(351,434)) {
+        bloomEntry = Animation(&characterSprite.objectTexture, sf::Vector2u(2, 2), 0.2f, false);
+    }
+};
 
 class Boss :
     public Character
@@ -38,14 +45,26 @@ private:
     sf::Color blinkColor = sf::Color(255,0,0,230);
     GameScene* scene; 
 
+    Character* player;
+
+
     int totalCircumferences = 4;
     int currentCircumference = 0;
-    int numberOfBullets = 12;
+    int numberOfBullets = 20;
+    float minTimeBetweenBullets = 0.8f;
+
+    int spiralIndex = 0;
+
+    void RedefineBullets(int numberOfBullets, sf::Vector2f scale);
+    void UpdateBloomPattern();
+    void UpdateSpiralPattern();
+
 
     enum class Pattern
     {
         NONE,
-        BLOOM
+        BLOOM,
+        SPIRAL
     };
 
     Pattern currentPattern;
@@ -53,15 +72,18 @@ private:
     bool canAttack = true;
     float xVelocity;
 
-    void Start();
 public:
 
     std::vector<Bloom> bloomObjects;
     std::vector<EnemyBullet*> bossBullets;
-    int totalBullets = 60;
+    int totalBullets = 90;
 
-    Boss(GameScene* window);
+
+    Boss(GameScene* window, Character* player);
+    void Start();
     void Update();
+
+
     void ArcMovement();
 
     void TakeDamage(int tempDamage)override;
@@ -71,9 +93,15 @@ public:
     float ArcYVelocity();
     float ArcXVelocity();
 
+    void BlinkOnHit();
+
+    void BeginPattern(sf::Vector2i indexRange);
 
     void DrawBullets();
-    void BloomPattern();
+    void GenerateCircumference();
+
+
+
 
 };
 

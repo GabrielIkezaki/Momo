@@ -63,7 +63,7 @@ class MainGame: public GameScene		//This is the scene where the actual game will
 public:
 
 	Player player = Player(localEv, this, 1, sf::Vector2f(450, 800));	//Player character inherits the same event pointer as the scene, making inputs consistent between object and scene
-	Boss hanako = Boss(this);
+	Boss hanako = Boss(this, &this->player);
 
 	SpriteObject backGround;		//The background will be just a sprite with no actual character attribute
 	std::vector<Animation*> backgroundAnimations;		//Background animation
